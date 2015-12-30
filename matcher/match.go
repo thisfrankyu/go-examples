@@ -1,4 +1,4 @@
-package mutest
+package matcher
 
 
 func Matches(pattern, text string) bool {
