@@ -16,6 +16,7 @@ func TestContains(t *testing.T) {
 		{"h.ll", "hello", true},
 		{".", "hello", true},
 		{"......", "hello", false},
+		{"", "anything", true},
 	}
 	for _, c := range cases {
 		got := Matches(c.pattern, c.text)
