@@ -17,6 +17,13 @@ func TestContains(t *testing.T) {
 		{".", "hello", true},
 		{"......", "hello", false},
 		{"", "anything", true},
+		{"a*", "", true},
+		{"da*ab", "db", false},
+		{"da*ab", "daaaaaab", true},
+		{"da*ab", "dab", true},
+		{"a.*b", "ab", true},
+		{"a.*b", "ddddastringbeee", true},
+
 	}
 	for _, c := range cases {
 		got := Matches(c.pattern, c.text)
