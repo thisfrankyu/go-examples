@@ -5,7 +5,7 @@ import (
 )
 
 
-func TestContains(t *testing.T) {
+func TestNextGreatest(t *testing.T) {
 	cases := []struct {
 		num int
 		want int
