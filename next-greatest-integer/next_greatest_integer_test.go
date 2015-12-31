@@ -4,10 +4,9 @@ import (
 	"testing"
 )
 
-
 func TestNextGreatest(t *testing.T) {
 	cases := []struct {
-		num int
+		num  int
 		want int
 	}{
 		{12345, 12354},
@@ -23,4 +22,3 @@ func TestNextGreatest(t *testing.T) {
 		}
 	}
 }
-

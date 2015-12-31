@@ -1,6 +1,5 @@
 package matcher
 
-
 func Matches(pattern, text string) bool {
 	for i := 0; i == 0 || i < len(text); i++ {
 		if matchHere(pattern, text[i:]) {
@@ -14,26 +13,59 @@ func matchHere(pattern, text string) bool {
 	if len(pattern) == 0 {
 		return true
 	}
-	if len(pattern) > 1 && pattern[1] == '*' {
-		return matchStar(pattern[0], pattern[2:], text)
+	matcher, rest := nextMatcher(pattern)
+	if len(rest) > 0 && rest[0] == '*' {
+		return matchStar(matcher, rest[1:], text)
 	}
 	if len(text) == 0 {
 		return false
 	}
-	return matchSingle(pattern[0], text[0]) && matchHere(pattern[1:], text[1:])
+	return matcher.match(text[0]) && matchHere(rest, text[1:])
 }
 
-func matchStar(starPattern byte, pattern, text string) bool {
+func matchStar(matcher charMatcher, pattern, text string) bool {
 	if len(pattern) == 0 {
 		return true
 	}
 	if len(text) == 0 {
 		return false
 	}
-	return (matchSingle(starPattern, text[0]) && matchStar(starPattern, pattern, text[1:])) || matchHere(pattern, text)
+	return (matcher.match(text[0]) && matchStar(matcher, pattern, text[1:])) || matchHere(pattern, text)
 }
 
-func matchSingle(patternChar, textChar byte) bool {
-	return patternChar == '.' || patternChar == textChar
+type singleMatcher struct {
+	c byte
 }
 
+func (matcher *singleMatcher) match(c byte) bool {
+	return matcher.c == '.' || matcher.c == c
+}
+
+type bracketMatcher struct {
+	chars string
+}
+
+func (matcher *bracketMatcher) match(c byte) bool {
+	for i := 0; i < len(matcher.chars); i++ {
+		if c == matcher.chars[i] {
+			return true
+		}
+	}
+	return false
+}
+
+type charMatcher interface {
+	match(c byte) bool
+}
+
+func nextMatcher(p string) (charMatcher, string) {
+	if p[0] == '[' {
+		i := 0
+		for i < len(p) && p[i] != ']' {
+			i++
+		}
+		rest := p[i+1:]
+		return &bracketMatcher{p[1:i]}, rest
+	}
+	return &singleMatcher{p[0]}, p[1:]
+}

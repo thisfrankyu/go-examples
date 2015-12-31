@@ -1,9 +1,9 @@
 package next_greatest_integer
 
 import (
-	"strconv"
-	"sort"
 	"math"
+	"sort"
+	"strconv"
 )
 
 func swap(a, b *int) {
@@ -41,7 +41,7 @@ func GetNextGreatestInt(num int) int {
 
 	//Find the smallest digit on right side of (i-1)'th digit that is greater than digits[i-1]
 	//Example: Given the same number, "534976", this would be "6" because it is the smallest digit to the right of 4
-	number := digits[i - 1]
+	number := digits[i-1]
 	smallest := i
 	for j := i + 1; j < length; j++ {
 		if digits[j] > number && digits[j] < digits[smallest] {
@@ -50,7 +50,7 @@ func GetNextGreatestInt(num int) int {
 	}
 
 	//Swap the above found smallest digit with digits[i-1]
-	swap(&digits[smallest], &digits[i - 1])
+	swap(&digits[smallest], &digits[i-1])
 
 	//Sort the digits after (i-1) in ascending order
 	digitsToSort := digits[i:]
@@ -65,7 +65,7 @@ func GetNextGreatestInt(num int) int {
 	numToReturn := 0
 	pow := 0
 	for k := length - 1; k >= 0; k-- {
-		numToReturn = int(float64(numToReturn) + float64(digits[k]) * (math.Pow(float64(10), float64(pow))))
+		numToReturn = int(float64(numToReturn) + float64(digits[k])*(math.Pow(float64(10), float64(pow))))
 		pow++
 	}
 
