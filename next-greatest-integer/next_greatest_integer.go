@@ -53,13 +53,7 @@ func GetNextGreatestInt(num int) int {
 	swap(&digits[smallest], &digits[i-1])
 
 	//Sort the digits after (i-1) in ascending order
-	digitsToSort := digits[i:]
-	sort.Ints(digitsToSort)
-	l := 0
-	for k := i; k < length; k++ {
-		digits[k] = digitsToSort[l]
-		l++
-	}
+	sort.Ints(digits[i:])
 
 	//Format the result as a number
 	numToReturn := 0

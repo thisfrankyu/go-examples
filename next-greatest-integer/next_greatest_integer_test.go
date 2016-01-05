@@ -13,7 +13,10 @@ func TestNextGreatest(t *testing.T) {
 		{12, 21},
 		{425116, 425161},
 		{5693013, 5693031},
-		//specifically leaving off testing the 0 case
+		//From here down, added because of mutation tester
+		{0, 0},
+		{534976, 536479},
+		{5349711, 5371149},
 	}
 	for _, c := range cases {
 		got := GetNextGreatestInt(c.num)
